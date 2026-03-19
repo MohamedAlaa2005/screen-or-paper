@@ -203,43 +203,7 @@ button{border:none;outline:none;font-family:inherit}
 </section>
 </div>
 <script>
-var GOOGLE_FORM_URL='https://docs.google.com/forms/d/e/1FAIpQLSeiV-_XrSnWCR4YtXdyGP_1XVg-P4v5GwyiCzxBP0zNrFE-Tw/formResponse';
-var FORM_FIELDS={
-  timestamp:              'entry.1844821658',
-  archetype:              'entry.1988231325',
-  archetypeLabel:         'entry.395064760',
-  bestFormat:             'entry.628037551',
-  focusScore:             'entry.1597916158',
-  comprehensionScore:     'entry.982448742',
-  digitalDependency:      'entry.648800425',
-  distractionSensitivity: 'entry.1554736220',
-  academicConfidence:     'entry.1378939420',
-  academicYear:           'entry.680796374',
-  major:                  'entry.1672229719',
-  gpa:                    'entry.581994427',
-  hoursReading:           'entry.962251597',
-  materialTypes:          'entry.15776026',
-  primaryFormat:          'entry.203055611',
-  studyExperience:        'entry.1861575268',
-  longSessions:           'entry.867597567',
-  distractionSource:      'entry.2092412404',
-  examPreference:         'entry.828801828',
-  deepUnderstanding:      'entry.251755131',
-  speedConvenience:       'entry.1674332801',
-  focusPerformance:       'entry.276277012',
-  whyFormat:              'entry.1003675737',
-  wouldChange:            'entry.598275046',
-  whatInfluence:          'entry.1460119091',
-  formatImpactStory:      'entry.814803436',
-  focusImpact:            'entry.399480298',
-  understandingImpact:    'entry.668609235',
-  distractionImpact:      'entry.175283109',
-  academicPerfImpact:     'entry.507835429',
-  attentionScore:         'entry.1894297948',
-  qualityFlag:            'entry.938001055',
-  q8scale:                'entry.1869523220',
-  q12compare:             'entry.1274128636'
-};
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbwJEsskOXMs8-5N4Zpvr-3eWcPhpiTqqhJUikWr7FkoqwL6AFaQPmsvbm3hyaHXJHIFzA/exec';
 var STAGES=['About You','Reading Habits','Study Experience','Insight'];
 var TOTAL=17;
 var TICKS=[
@@ -441,8 +405,8 @@ function showResult(){
 }
 function doConfetti(){var cv=document.getElementById('cc'),ctx=cv.getContext('2d');cv.width=window.innerWidth;cv.height=window.innerHeight;cv.style.opacity='1';var cols=['#d4a44c','#c8862a','#f5ead8','#8a6030','#e8c87a'],P=[],frame=0;for(var i=0;i<55;i++)P.push({x:Math.random()*cv.width,y:-20,vx:(Math.random()-.5)*3.5,vy:Math.random()*3+1.5,c:cols[Math.floor(Math.random()*cols.length)],sz:Math.random()*5+2,rot:Math.random()*360,vr:(Math.random()-.5)*9});function tick(){ctx.clearRect(0,0,cv.width,cv.height);var alive=false;P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.07;p.rot+=p.vr;if(p.y<cv.height+20){alive=true;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot*Math.PI/180);ctx.globalAlpha=Math.max(0,1-(p.y/cv.height));ctx.fillStyle=p.c;ctx.fillRect(-p.sz/2,-p.sz/2,p.sz,p.sz);ctx.restore();}});frame++;if(alive&&frame<200)requestAnimationFrame(tick);else cv.style.opacity='0';}requestAnimationFrame(tick);}
 function submitToForms(data){
-  if(!GOOGLE_FORM_URL||GOOGLE_FORM_URL==='YOUR_GOOGLE_FORM_URL/formResponse'){
-    console.log('[SoP] Form URL not configured. Data:',data);
+  if(!SCRIPT_URL||SCRIPT_URL==='YOUR_APPS_SCRIPT_URL'){
+    console.log('[SoP] Script URL not set.');
     return;
   }
   try{
@@ -451,51 +415,49 @@ function submitToForms(data){
     var scores=computed.scores||{};
     var q8=answers.q8||{};
     var q12=answers.q12||{};
-    var params=new URLSearchParams();
-    params.append(FORM_FIELDS.timestamp,           data.meta.timestamp||'');
-    params.append(FORM_FIELDS.archetype,           computed.archetype||'');
-    params.append(FORM_FIELDS.archetypeLabel,      computed.archetypeLabel||'');
-    params.append(FORM_FIELDS.bestFormat,          computed.bestFormat||'');
-    params.append(FORM_FIELDS.focusScore,          scores.focus||'');
-    params.append(FORM_FIELDS.comprehensionScore,  scores.comprehension||'');
-    params.append(FORM_FIELDS.digitalDependency,   scores.digitalDependency||'');
-    params.append(FORM_FIELDS.distractionSensitivity, scores.distractionSensitivity||'');
-    params.append(FORM_FIELDS.academicConfidence,  scores.academicConfidence||'');
-    params.append(FORM_FIELDS.attentionScore,      computed.attentionScore||'');
-    params.append(FORM_FIELDS.qualityFlag,         String(computed.qualityFlag||false));
-    params.append(FORM_FIELDS.academicYear,        answers.q1||'');
-    params.append(FORM_FIELDS.major,               answers.q2||'');
-    params.append(FORM_FIELDS.gpa,                 answers.q3||'');
-    params.append(FORM_FIELDS.hoursReading,        answers.q4||'');
-    params.append(FORM_FIELDS.materialTypes,       Array.isArray(answers.q5)?answers.q5.join(', '):(answers.q5||''));
-    params.append(FORM_FIELDS.primaryFormat,       answers.q6||'');
-    params.append(FORM_FIELDS.studyExperience,     answers.q7||'');
-    params.append(FORM_FIELDS.focusImpact,         q8.Focus||'');
-    params.append(FORM_FIELDS.understandingImpact, q8.Understanding||'');
-    params.append(FORM_FIELDS.distractionImpact,   q8.Distraction||'');
-    params.append(FORM_FIELDS.academicPerfImpact,  q8['Academic performance']||'');
-    params.append(FORM_FIELDS.longSessions,        answers.q9||'');
-    params.append(FORM_FIELDS.distractionSource,   answers.q10||'');
-    params.append(FORM_FIELDS.examPreference,      answers.q11||'');
-    params.append(FORM_FIELDS.deepUnderstanding,   (q12['Deep understanding'])||'');
-    params.append(FORM_FIELDS.speedConvenience,    (q12['Speed & convenience'])||'');
-    params.append(FORM_FIELDS.focusPerformance,    (q12['Focus'])||'');
-    params.append(FORM_FIELDS.whyFormat,           answers.q13||'');
-    params.append(FORM_FIELDS.wouldChange,         answers.q14||'');
-    params.append(FORM_FIELDS.whatInfluence,       answers.q15||'');
-    params.append(FORM_FIELDS.formatImpactStory,   answers.q16||'');
-    params.append(FORM_FIELDS.q8scale,             JSON.stringify(q8));
-    params.append(FORM_FIELDS.q12compare,          JSON.stringify(q12));
-    fetch(GOOGLE_FORM_URL,{
-      method:'POST',
-      mode:'no-cors',
-      headers:{'Content-Type':'application/x-www-form-urlencoded'},
-      body:params.toString()
-    })
-    .then(function(){console.log('[SoP] Submitted successfully.');})
-    .catch(function(err){console.warn('[SoP] Submission failed:',err);});
+    var payload={
+      timestamp:           data.meta.timestamp||'',
+      archetype:           computed.archetype||'',
+      archetypeLabel:      computed.archetypeLabel||'',
+      bestFormat:          computed.bestFormat||'',
+      focusScore:          scores.focus||'',
+      comprehensionScore:  scores.comprehension||'',
+      digitalDependency:   scores.digitalDependency||'',
+      distractionSensitivity: scores.distractionSensitivity||'',
+      academicConfidence:  scores.academicConfidence||'',
+      attentionScore:      computed.attentionScore||'',
+      qualityFlag:         String(computed.qualityFlag||false),
+      q1_academicYear:     answers.q1||'',
+      q2_major:            answers.q2||'',
+      q3_gpa:              answers.q3||'',
+      q4_hoursReading:     answers.q4||'',
+      q5_materialTypes:    Array.isArray(answers.q5)?answers.q5.join(', '):(answers.q5||''),
+      q6_primaryFormat:    answers.q6||'',
+      q7_studyExperience:  answers.q7||'',
+      q8_focusImpact:      q8.Focus||'',
+      q8_understandingImpact: q8.Understanding||'',
+      q8_distractionImpact:   q8.Distraction||'',
+      q8_academicPerfImpact:  q8['Academic performance']||'',
+      q9_longSessions:     answers.q9||'',
+      q10_distractionSource:  answers.q10||'',
+      q11_examPreference:  answers.q11||'',
+      q12_deepUnderstanding:  (q12['Deep understanding'])||'',
+      q12_speedConvenience:   (q12['Speed & convenience'])||'',
+      q12_focusPerformance:   (q12['Focus'])||'',
+      q13_whyFormat:       answers.q13||'',
+      q14_wouldChange:     answers.q14||'',
+      q15_whatInfluence:   answers.q15||'',
+      q16_formatImpactStory:  answers.q16||''
+    };
+    var img=new Image();
+    img.src=SCRIPT_URL+'?'+Object.keys(payload).map(function(k){
+      return encodeURIComponent(k)+'='+encodeURIComponent(payload[k]);
+    }).join('&');
+    img.onerror=img.onload=function(){
+      console.log('[SoP] Submitted successfully.');
+    };
   }catch(e){
-    console.warn('[SoP] Error building form data:',e);
+    console.warn('[SoP] Error:',e);
   }
 }
 document.getElementById('startBtn').addEventListener('click',function(){showScreen('survey');document.body.classList.add('in-survey');startTick();render(cur);});
