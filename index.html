@@ -203,7 +203,7 @@ button{border:none;outline:none;font-family:inherit}
 </section>
 </div>
 <script>
-var SCRIPT_URL='https://script.google.com/macros/s/AKfycbxYLSU0MkEFS6L63fSsZU1ScY_bDD1gHKOBygRaUM024_Xjr-iN9jmylMjPv8PhQiIg1A/exec';
+var SCRIPT_URL='https://script.google.com/macros/s/AKfycbxyk58BHRrw5PZM8-c9BocD9PVx_Hi8wqTJrA2j4muXSjHJwUWGsJlBsdv4uDkxOccypw/exec';
 var STAGES=['About You','Reading Habits','Study Experience','Insight'];
 var TOTAL=17;
 var TICKS=[
@@ -942,7 +942,8 @@ function submitToForms(data){
       q13_whyFormat:answers.q13||'',
       q14_wouldChange:answers.q14||'',
       q15_whatInfluence:answers.q15||'',
-      q16_formatImpactStory:answers.q16||''
+      q16_formatImpactStory:answers.q16||'',
+      qualityFlag:String(computed.qualityFlag||false)
     };
     
     var img=new Image();
